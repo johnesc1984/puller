@@ -1,0 +1,37 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Cambia 'main' por tu rama principal
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout del repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Configura SSH
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Copia los archivos al servidor
+      - name: Deploy to Server
+        run: |
+          rsync -avz --delete ./ deployer@137.184.83.197:/var/www/mi-aplicacion
+
+      # Ejecuta comandos de post-deployment
+      - name: Post-Deployment Commands
+        run: |
+          ssh deployer@137.184.83.197 << 'EOF'
+          cd /var/www/mi-aplicacion
+          # Agrega tus comandos aquí, por ejemplo:
+          # npm install
+          # npm run build
+          # systemctl restart mi-aplicacion
+          EOF
