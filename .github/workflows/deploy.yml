@@ -23,12 +23,12 @@ jobs:
       # Copia los archivos al servidor
       - name: Deploy to Server
         run: |
-          rsync -avz --delete ./ deployer@137.184.83.197:/var/www/mi-aplicacion
+          rsync -avz --delete ./ root@137.184.83.197:/var/www/mi-aplicacion
 
       # Ejecuta comandos de post-deployment
       - name: Post-Deployment Commands
         run: |
-          ssh deployer@137.184.83.197 << 'EOF'
+          ssh root@137.184.83.197 << 'EOF'
           cd /var/www/mi-aplicacion
           # Agrega tus comandos aquí, por ejemplo:
           # npm install
