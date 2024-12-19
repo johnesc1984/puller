@@ -29,9 +29,12 @@ jobs:
       - name: Post-Deployment Commands
         run: |
           ssh root@137.184.83.197 << 'EOF'
+          set -e  # Detenerse si ocurre algún error
           cd /var/www/mi-aplicacion
-          # Agrega tus comandos aquí, por ejemplo:
+          # Agrega tus comandos aquí:
+          # Instalar dependencias si es necesario
           # npm install
           # npm run build
+          # Reiniciar servicios
           # systemctl restart mi-aplicacion
           EOF
